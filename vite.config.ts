@@ -27,7 +27,7 @@ export default defineConfig({
   build: isWidgetBuild
     ? {
         lib: {
-          entry: path.resolve(__dirname, "src/embed-robust.tsx"),
+          entry: path.resolve(__dirname, "src/embed-no-react.tsx"),
           name: "ChatWidget",
           fileName: "my-widget",
           formats: ["umd"],

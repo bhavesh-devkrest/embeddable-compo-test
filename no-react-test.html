@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>No React Widget Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .success {
+            color: #22c55e;
+            font-weight: bold;
+        }
+        .error {
+            color: #ef4444;
+            font-weight: bold;
+        }
+        .info {
+            color: #3b82f6;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>No React Widget Test</h1>
+    
+    <div class="test-section">
+        <h2>Testing React-Free Widget</h2>
+        <div id="status">Loading...</div>
+        <div id="error"></div>
+        <p><strong>Size:</strong> <span id="size">Calculating...</span></p>
+    </div>
+
+    <div class="test-section">
+        <h2>Test Controls</h2>
+        <button onclick="testMount()">Test Mount</button>
+        <button onclick="testUnmount()">Test Unmount</button>
+        <button onclick="testCustom()">Test Custom Config</button>
+        <button onclick="testMultiple()">Test Multiple Widgets</button>
+    </div>
+
+    <div class="test-section">
+        <h2>Console Output</h2>
+        <p>Check the browser console (F12) for detailed logs.</p>
+    </div>
+
+    <script>
+        console.log('Testing React-free widget...');
+        
+        // Load the widget
+        const script = document.createElement('script');
+        script.src = 'dist/my-widget.umd.cjs';
+        script.onload = () => {
+            console.log('✅ Widget script loaded successfully');
+            document.getElementById('status').innerHTML = '<span class="success">✅ Script loaded successfully</span>';
+            
+            // Get file size
+            fetch('dist/my-widget.umd.cjs')
+                .then(response => response.blob())
+                .then(blob => {
+                    const sizeKB = (blob.size / 1024).toFixed(2);
+                    document.getElementById('size').textContent = `${sizeKB} KB`;
+                    console.log(`Widget size: ${sizeKB} KB`);
+                });
+            
+            // Test if ChatWidget is available
+            setTimeout(() => {
+                if (window.ChatWidget) {
+                    console.log('✅ ChatWidget found on window object');
+                    document.getElementById('status').innerHTML = '<span class="success">✅ ChatWidget available</span>';
+                    
+                    // Test mounting
+                    try {
+                        window.ChatWidget.mount({
+                            position: 'bottom-right',
+                            theme: 'light',
+                            title: 'React-Free Test',
+                            buttonText: 'Test Chat',
+                            onChatStart: () => {
+                                console.log('✅ Chat started successfully');
+                                document.getElementById('status').innerHTML = '<span class="success">✅ Widget mounted and working!</span>';
+                                alert('Chat started! This is the React-free widget.');
+                            }
+                        });
+                        console.log('✅ Widget mounted successfully');
+                    } catch (error) {
+                        console.error('❌ Error mounting widget:', error);
+                        document.getElementById('error').innerHTML = `<span class="error">❌ Mount error: ${error.message}</span>`;
+                    }
+                } else {
+                    console.error('❌ ChatWidget not found on window object');
+                    document.getElementById('error').innerHTML = '<span class="error">❌ ChatWidget not found</span>';
+                }
+            }, 100);
+        };
+        
+        script.onerror = () => {
+            console.error('❌ Failed to load widget script');
+            document.getElementById('error').innerHTML = '<span class="error">❌ Failed to load script</span>';
+        };
+        
+        document.head.appendChild(script);
+
+        // Test functions
+        function testMount() {
+            if (window.ChatWidget) {
+                try {
+                    window.ChatWidget.mount({
+                        position: 'bottom-left',
+                        theme: 'dark',
+                        title: 'Manual Test',
+                        buttonText: 'Test Button',
+                        onChatStart: () => {
+                            console.log('Manual test clicked');
+                            alert('Manual test clicked!');
+                        }
+                    });
+                    console.log('✅ Manual mount successful');
+                } catch (error) {
+                    console.error('❌ Manual mount failed:', error);
+                }
+            }
+        }
+
+        function testUnmount() {
+            if (window.ChatWidget) {
+                try {
+                    window.ChatWidget.unmount();
+                    console.log('✅ Unmount successful');
+                } catch (error) {
+                    console.error('❌ Unmount failed:', error);
+                }
+            }
+        }
+
+        function testCustom() {
+            if (window.ChatWidget) {
+                try {
+                    window.ChatWidget.mount({
+                        position: 'top-right',
+                        theme: 'dark',
+                        title: 'Custom Widget',
+                        buttonText: 'Get Help Now',
+                        onChatStart: () => {
+                            console.log('Custom widget clicked');
+                            alert('Custom widget clicked!');
+                        }
+                    });
+                    console.log('✅ Custom config successful');
+                } catch (error) {
+                    console.error('❌ Custom config failed:', error);
+                }
+            }
+        }
+
+        function testMultiple() {
+            if (window.ChatWidget) {
+                try {
+                    // Mount multiple widgets with different configs
+                    window.ChatWidget.mount({
+                        position: 'bottom-right',
+                        theme: 'light',
+                        title: 'Widget 1',
+                        buttonText: 'Help 1',
+                        containerId: 'widget-1',
+                        onChatStart: () => alert('Widget 1 clicked')
+                    });
+                    
+                    window.ChatWidget.mount({
+                        position: 'top-left',
+                        theme: 'dark',
+                        title: 'Widget 2',
+                        buttonText: 'Help 2',
+                        containerId: 'widget-2',
+                        onChatStart: () => alert('Widget 2 clicked')
+                    });
+                    
+                    console.log('✅ Multiple widgets successful');
+                } catch (error) {
+                    console.error('❌ Multiple widgets failed:', error);
+                }
+            }
+        }
+    </script>
+</body>
+</html> 
