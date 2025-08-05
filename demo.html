@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Widget Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .demo-section {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .demo-buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin: 16px 0;
+        }
+        button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            background: #3b82f6;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        button:hover {
+            background: #2563eb;
+        }
+        .code-block {
+            background: #f3f4f6;
+            padding: 16px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 14px;
+            margin: 12px 0;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-section">
+        <h1>Chat Widget Embed Demo</h1>
+        <p>This page demonstrates how to embed the chat widget in different ways.</p>
+    </div>
+
+    <div class="demo-section">
+        <h2>Method 1: Auto-mount (Default)</h2>
+        <p>The widget will automatically appear when the script loads.</p>
+        <div class="code-block">
+&lt;script src="dist/my-widget.umd.js"&gt;&lt;/script&gt;
+        </div>
+    </div>
+
+    <div class="demo-section">
+        <h2>Method 2: Manual Mount</h2>
+        <p>Mount the widget with custom configuration.</p>
+        <div class="demo-buttons">
+            <button onclick="mountDefault()">Mount Default</button>
+            <button onclick="mountCustom()">Mount Custom</button>
+            <button onclick="mountDark()">Mount Dark Theme</button>
+            <button onclick="mountTopLeft()">Mount Top-Left</button>
+            <button onclick="unmountWidget()">Unmount</button>
+        </div>
+        <div class="code-block">
+// Mount with default settings
+ChatWidget.mount();
+
+// Mount with custom configuration
+ChatWidget.mount({
+  position: 'bottom-left',
+  theme: 'dark',
+  title: 'Custom Title',
+  buttonText: 'Get Help'
+});
+        </div>
+    </div>
+
+    <div class="demo-section">
+        <h2>Method 3: In a Specific Container</h2>
+        <p>Mount the widget in a specific HTML element.</p>
+        <div id="custom-container" style="height: 200px; border: 2px dashed #ccc; margin: 20px 0; display: flex; align-items: center; justify-content: center;">
+            <p>Widget will appear here</p>
+        </div>
+        <div class="demo-buttons">
+            <button onclick="mountInContainer()">Mount in Container</button>
+            <button onclick="clearContainer()">Clear Container</button>
+        </div>
+        <div class="code-block">
+// Mount in specific container
+ChatWidget.mount({
+  containerId: 'custom-container',
+  position: 'bottom-right',
+  title: 'Container Widget'
+});
+        </div>
+    </div>
+
+    <script>
+        // Demo functions
+        function mountDefault() {
+            if (window.ChatWidget) {
+                window.ChatWidget.mount();
+            }
+        }
+
+        function mountCustom() {
+            if (window.ChatWidget) {
+                window.ChatWidget.mount({
+                    position: 'bottom-left',
+                    title: 'Custom Help Widget',
+                    buttonText: 'Ask Question',
+                    onChatStart: () => {
+                        alert('Chat started!');
+                    }
+                });
+            }
+        }
+
+        function mountDark() {
+            if (window.ChatWidget) {
+                window.ChatWidget.mount({
+                    theme: 'dark',
+                    title: 'Dark Theme Widget',
+                    buttonText: 'Start Dark Chat'
+                });
+            }
+        }
+
+        function mountTopLeft() {
+            if (window.ChatWidget) {
+                window.ChatWidget.mount({
+                    position: 'top-left',
+                    title: 'Top-Left Widget',
+                    buttonText: 'Help Me'
+                });
+            }
+        }
+
+        function unmountWidget() {
+            if (window.ChatWidget) {
+                window.ChatWidget.unmount();
+            }
+        }
+
+        function mountInContainer() {
+            if (window.ChatWidget) {
+                window.ChatWidget.mount({
+                    containerId: 'custom-container',
+                    position: 'bottom-right',
+                    title: 'Container Widget',
+                    buttonText: 'Container Chat'
+                });
+            }
+        }
+
+        function clearContainer() {
+            const container = document.getElementById('custom-container');
+            if (container) {
+                container.innerHTML = '<p>Widget will appear here</p>';
+            }
+        }
+    </script>
+
+    <!-- Load the widget script -->
+    <script src="dist/my-widget.umd.js"></script>
+</body>
+</html> 

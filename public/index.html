@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Widget - Embeddable Component</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+        }
+        .demo-section {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+        .code-block {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+        .button {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #3b82f6;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            margin: 10px 5px;
+            transition: background 0.3s;
+        }
+        .button:hover {
+            background: #2563eb;
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .feature {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .feature h3 {
+            margin-top: 0;
+            color: #fbbf24;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Chat Widget</h1>
+        <p style="text-align: center; font-size: 1.2rem; margin-bottom: 40px;">
+            A lightweight, customizable chat widget that can be easily embedded into any website.
+        </p>
+
+        <div class="features">
+            <div class="feature">
+                <h3>✨ Easy Integration</h3>
+                <p>Single script tag to embed</p>
+            </div>
+            <div class="feature">
+                <h3>🎨 Customizable</h3>
+                <p>Position, theme, and styling options</p>
+            </div>
+            <div class="feature">
+                <h3>📱 Responsive</h3>
+                <p>Works on all device sizes</p>
+            </div>
+            <div class="feature">
+                <h3>🛡️ Isolated</h3>
+                <p>CSS isolation prevents conflicts</p>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2>Quick Start</h2>
+            <p>Add this script tag to your HTML:</p>
+            <div class="code-block">
+&lt;script src="https://your-vercel-domain.vercel.app/my-widget.umd.cjs"&gt;&lt;/script&gt;
+            </div>
+            <p>The widget will automatically appear in the bottom-right corner.</p>
+        </div>
+
+        <div class="demo-section">
+            <h2>Custom Configuration</h2>
+            <div class="code-block">
+// Mount with custom settings
+ChatWidget.mount({
+  position: 'bottom-left',
+  theme: 'dark',
+  title: 'Need help?',
+  buttonText: 'Start Chat',
+  onChatStart: () => {
+    console.log('Chat started!');
+  }
+});
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2>Available Files</h2>
+            <ul>
+                <li><strong>my-widget.umd.cjs</strong> - Main widget file</li>
+                <li><strong>my-widget.css</strong> - Widget styles (included in JS)</li>
+            </ul>
+        </div>
+
+        <div style="text-align: center; margin-top: 40px;">
+            <a href="https://github.com/your-username/embeddable-compo-test" class="button">View on GitHub</a>
+            <a href="demo.html" class="button">Live Demo</a>
+        </div>
+    </div>
+
+    <!-- Demo widget -->
+    <script src="my-widget.umd.cjs"></script>
+</body>
+</html> 

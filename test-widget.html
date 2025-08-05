@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Widget Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        button {
+            padding: 8px 16px;
+            margin: 5px;
+            border: none;
+            border-radius: 4px;
+            background: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Chat Widget Test</h1>
+    
+    <div class="test-section">
+        <h2>Widget should appear automatically in bottom-right corner</h2>
+        <p>If you don't see it, check the browser console for errors.</p>
+    </div>
+
+    <div class="test-section">
+        <h2>Manual Controls</h2>
+        <button onclick="testMount()">Mount Default</button>
+        <button onclick="testCustom()">Mount Custom</button>
+        <button onclick="testUnmount()">Unmount</button>
+    </div>
+
+    <div class="test-section">
+        <h2>Console Output</h2>
+        <p>Check the browser console (F12) to see widget events.</p>
+    </div>
+
+    <script>
+        function testMount() {
+            if (window.ChatWidget) {
+                console.log('Mounting default widget...');
+                window.ChatWidget.mount();
+            } else {
+                console.error('ChatWidget not found!');
+            }
+        }
+
+        function testCustom() {
+            if (window.ChatWidget) {
+                console.log('Mounting custom widget...');
+                window.ChatWidget.mount({
+                    position: 'bottom-left',
+                    theme: 'dark',
+                    title: 'Test Widget',
+                    buttonText: 'Test Chat',
+                    onChatStart: () => {
+                        console.log('Chat started!');
+                        alert('Chat started!');
+                    }
+                });
+            }
+        }
+
+        function testUnmount() {
+            if (window.ChatWidget) {
+                console.log('Unmounting widget...');
+                window.ChatWidget.unmount();
+            }
+        }
+
+        // Log when widget loads
+        window.addEventListener('load', () => {
+            console.log('Page loaded, checking for ChatWidget...');
+            if (window.ChatWidget) {
+                console.log('ChatWidget loaded successfully!');
+                console.log('Available methods:', Object.keys(window.ChatWidget));
+            } else {
+                console.error('ChatWidget not found on window object');
+            }
+        });
+    </script>
+
+    <!-- Load the widget -->
+    <script src="dist/my-widget.umd.cjs"></script>
+</body>
+</html> 

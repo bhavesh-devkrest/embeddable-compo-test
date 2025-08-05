@@ -1,0 +1,70 @@
+/* Chat Widget Styles - Isolated from host page */
+.chat-widget-container {
+  /* Reset any inherited styles */
+  all: initial;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  box-sizing: border-box;
+}
+
+.chat-widget-container * {
+  box-sizing: border-box;
+}
+
+/* Widget specific styles */
+.chat-widget {
+  position: fixed;
+  z-index: 999999;
+  max-width: 320px;
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.chat-widget:hover {
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Position classes */
+.chat-widget.bottom-right {
+  bottom: 16px;
+  right: 16px;
+}
+
+.chat-widget.bottom-left {
+  bottom: 16px;
+  left: 16px;
+}
+
+.chat-widget.top-right {
+  top: 16px;
+  right: 16px;
+}
+
+.chat-widget.top-left {
+  top: 16px;
+  left: 16px;
+}
+
+/* Theme classes */
+.chat-widget.theme-light {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  color: #111827;
+}
+
+.chat-widget.theme-dark {
+  background: #1f2937;
+  border: 1px solid #374151;
+  color: #f9fafb;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .chat-widget {
+    max-width: calc(100vw - 32px);
+    margin: 0 16px;
+  }
+} 
