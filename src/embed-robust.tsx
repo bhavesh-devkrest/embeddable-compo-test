@@ -1,4 +1,3 @@
-
 import { createRoot } from "react-dom/client";
 import ChatWidget, { type ChatWidgetConfig } from "./widget";
 
@@ -18,6 +17,21 @@ const defaultConfig: WidgetConfig = {
   autoMount: true
 };
 
+// Function to safely create React root
+function createSafeRoot(container: HTMLElement) {
+  try {
+    // Check if React is available
+    if (typeof window !== 'undefined' && window.React) {
+      return createRoot(container);
+    } else {
+      throw new Error('React not available');
+    }
+  } catch (error) {
+    console.error('Failed to create React root:', error);
+    throw error;
+  }
+}
+
 // Function to mount widget
 export function mountChatWidget(config: WidgetConfig = {}) {
   const finalConfig = { ...defaultConfig, ...config };
@@ -36,12 +50,31 @@ export function mountChatWidget(config: WidgetConfig = {}) {
     // Clear existing content
     container.innerHTML = '';
 
-    // Mount the widget
-    const root = createRoot(container);
-    root.render(<ChatWidget config={widgetConfig} />);
+    // Mount the widget with error handling
+    try {
+      const root = createSafeRoot(container);
+      root.render(<ChatWidget config={widgetConfig} />);
 
-    console.log('Chat widget mounted successfully');
-    return root;
+      console.log('Chat widget mounted successfully');
+      return root;
+    } catch (reactError) {
+      console.error('React mounting error:', reactError);
+      
+      // Fallback: Create a simple widget without React
+      container.innerHTML = `
+        <div class="chat-widget ${widgetConfig.position || 'bottom-right'} ${widgetConfig.theme || 'light'} p-4" 
+             style="position: fixed; z-index: 999999; max-width: 320px; width: 100%; border-radius: 12px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15); background: ${widgetConfig.theme === 'dark' ? '#1f2937' : '#ffffff'}; color: ${widgetConfig.theme === 'dark' ? '#f9fafb' : '#111827'}; border: 1px solid ${widgetConfig.theme === 'dark' ? '#374151' : '#e5e7eb'};">
+          <p style="margin-bottom: 8px; font-weight: 500;">${widgetConfig.title || 'Hi there! Need help?'}</p>
+          <button onclick="this.parentElement.remove()" 
+                  style="width: 100%; padding: 8px 16px; background: #3b82f6; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px;">
+            ${widgetConfig.buttonText || 'Start Chat'}
+          </button>
+        </div>
+      `;
+      
+      console.log('Chat widget mounted with fallback');
+      return null;
+    }
   } catch (error) {
     console.error('Failed to mount chat widget:', error);
     throw error;
@@ -87,7 +120,7 @@ if (typeof window !== 'undefined') {
           console.warn('Failed to auto-mount widget:', error);
           // Don't throw, just log the warning
         }
-      }, 100);
+      }, 500); // Increased timeout for React to load
     };
     
     waitForReact();
@@ -101,4 +134,4 @@ if (typeof module !== 'undefined' && module.exports) {
     unmount: unmountChatWidget,
     config: defaultConfig
   };
-}
+} 

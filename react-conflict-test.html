@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React Conflict Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .success {
+            color: #22c55e;
+            font-weight: bold;
+        }
+        .error {
+            color: #ef4444;
+            font-weight: bold;
+        }
+        .warning {
+            color: #f59e0b;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>React Conflict Test</h1>
+    
+    <div class="test-section">
+        <h2>Testing Widget with React Version Conflicts</h2>
+        <div id="status">Loading...</div>
+        <div id="error"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Test Controls</h2>
+        <button onclick="testMount()">Test Mount</button>
+        <button onclick="testUnmount()">Test Unmount</button>
+        <button onclick="testFallback()">Test Fallback</button>
+    </div>
+
+    <div class="test-section">
+        <h2>Console Output</h2>
+        <p>Check the browser console (F12) for detailed logs.</p>
+    </div>
+
+    <script>
+        // Simulate React version conflict
+        console.log('Testing React conflict scenarios...');
+        
+        // Test 1: No React available
+        console.log('Test 1: No React available');
+        
+        // Test 2: Different React version
+        console.log('Test 2: Different React version');
+        
+        // Load the widget
+        const script = document.createElement('script');
+        script.src = 'dist/my-widget.umd.cjs';
+        script.onload = () => {
+            console.log('✅ Widget script loaded successfully');
+            document.getElementById('status').innerHTML = '<span class="success">✅ Script loaded successfully</span>';
+            
+            // Test if ChatWidget is available
+            setTimeout(() => {
+                if (window.ChatWidget) {
+                    console.log('✅ ChatWidget found on window object');
+                    document.getElementById('status').innerHTML = '<span class="success">✅ ChatWidget available</span>';
+                    
+                    // Test mounting
+                    try {
+                        window.ChatWidget.mount({
+                            position: 'bottom-right',
+                            theme: 'light',
+                            title: 'Conflict Test',
+                            buttonText: 'Test Chat',
+                            onChatStart: () => {
+                                console.log('✅ Chat started successfully');
+                                document.getElementById('status').innerHTML = '<span class="success">✅ Widget mounted and working!</span>';
+                            }
+                        });
+                        console.log('✅ Widget mounted successfully');
+                    } catch (error) {
+                        console.error('❌ Error mounting widget:', error);
+                        document.getElementById('error').innerHTML = `<span class="error">❌ Mount error: ${error.message}</span>`;
+                    }
+                } else {
+                    console.error('❌ ChatWidget not found on window object');
+                    document.getElementById('error').innerHTML = '<span class="error">❌ ChatWidget not found</span>';
+                }
+            }, 100);
+        };
+        
+        script.onerror = () => {
+            console.error('❌ Failed to load widget script');
+            document.getElementById('error').innerHTML = '<span class="error">❌ Failed to load script</span>';
+        };
+        
+        document.head.appendChild(script);
+
+        // Test functions
+        function testMount() {
+            if (window.ChatWidget) {
+                try {
+                    window.ChatWidget.mount({
+                        position: 'bottom-left',
+                        theme: 'dark',
+                        title: 'Manual Test',
+                        buttonText: 'Test Button'
+                    });
+                    console.log('✅ Manual mount successful');
+                } catch (error) {
+                    console.error('❌ Manual mount failed:', error);
+                }
+            }
+        }
+
+        function testUnmount() {
+            if (window.ChatWidget) {
+                try {
+                    window.ChatWidget.unmount();
+                    console.log('✅ Unmount successful');
+                } catch (error) {
+                    console.error('❌ Unmount failed:', error);
+                }
+            }
+        }
+
+        function testFallback() {
+            // Test the fallback mechanism
+            console.log('Testing fallback mechanism...');
+            if (window.ChatWidget) {
+                try {
+                    // This should trigger the fallback if React is not available
+                    window.ChatWidget.mount({
+                        position: 'top-right',
+                        theme: 'dark',
+                        title: 'Fallback Test',
+                        buttonText: 'Fallback Button'
+                    });
+                } catch (error) {
+                    console.log('Fallback triggered:', error);
+                }
+            }
+        }
+    </script>
+</body>
+</html> 

@@ -20,11 +20,14 @@ export default defineConfig({
     'process.env': '{}',
     'process.platform': JSON.stringify('browser'),
     'process.version': JSON.stringify(''),
+    // Ensure React version compatibility
+    '__DEV__': false,
+    '__PROD__': true,
   },
   build: isWidgetBuild
     ? {
         lib: {
-          entry: path.resolve(__dirname, "src/embed.tsx"),
+          entry: path.resolve(__dirname, "src/embed-robust.tsx"),
           name: "ChatWidget",
           fileName: "my-widget",
           formats: ["umd"],
