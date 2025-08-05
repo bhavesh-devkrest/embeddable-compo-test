@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browser Compatibility Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .success {
+            color: #22c55e;
+            font-weight: bold;
+        }
+        .error {
+            color: #ef4444;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Browser Compatibility Test</h1>
+    
+    <div class="test-section">
+        <h2>Testing Widget Loading</h2>
+        <div id="status">Loading...</div>
+        <div id="error"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Console Output</h2>
+        <p>Check the browser console (F12) for detailed logs.</p>
+    </div>
+
+    <script>
+        // Test for Node.js globals that shouldn't exist in browser
+        console.log('Testing browser environment...');
+        console.log('process:', typeof process);
+        console.log('module:', typeof module);
+        console.log('require:', typeof require);
+        
+        if (typeof process !== 'undefined') {
+            console.warn('process is defined - this might cause issues');
+        } else {
+            console.log('✅ process is not defined (good for browser)');
+        }
+
+        // Load the widget
+        const script = document.createElement('script');
+        script.src = 'dist/my-widget.umd.cjs';
+        script.onload = () => {
+            console.log('✅ Widget script loaded successfully');
+            document.getElementById('status').innerHTML = '<span class="success">✅ Script loaded successfully</span>';
+            
+            // Test if ChatWidget is available
+            setTimeout(() => {
+                if (window.ChatWidget) {
+                    console.log('✅ ChatWidget found on window object');
+                    document.getElementById('status').innerHTML = '<span class="success">✅ ChatWidget available</span>';
+                    
+                    // Test mounting
+                    try {
+                        window.ChatWidget.mount({
+                            position: 'bottom-right',
+                            theme: 'light',
+                            title: 'Browser Test',
+                            buttonText: 'Test Chat',
+                            onChatStart: () => {
+                                console.log('✅ Chat started successfully');
+                                document.getElementById('status').innerHTML = '<span class="success">✅ Widget mounted and working!</span>';
+                            }
+                        });
+                        console.log('✅ Widget mounted successfully');
+                    } catch (error) {
+                        console.error('❌ Error mounting widget:', error);
+                        document.getElementById('error').innerHTML = `<span class="error">❌ Mount error: ${error.message}</span>`;
+                    }
+                } else {
+                    console.error('❌ ChatWidget not found on window object');
+                    document.getElementById('error').innerHTML = '<span class="error">❌ ChatWidget not found</span>';
+                }
+            }, 100);
+        };
+        
+        script.onerror = () => {
+            console.error('❌ Failed to load widget script');
+            document.getElementById('error').innerHTML = '<span class="error">❌ Failed to load script</span>';
+        };
+        
+        document.head.appendChild(script);
+    </script>
+</body>
+</html> 

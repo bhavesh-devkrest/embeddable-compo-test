@@ -82,3 +82,12 @@ if (typeof window !== 'undefined') {
     }
   }
 }
+
+// Also expose for CommonJS environments
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = {
+    mount: mountChatWidget,
+    unmount: unmountChatWidget,
+    config: defaultConfig
+  };
+}

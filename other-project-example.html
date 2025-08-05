@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Widget Test</title>
+  </head>
+  <body>
+    <!-- For local Vite app preview (App.tsx) -->
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+
+    <!-- Method 1: Auto-mount (widget appears automatically) -->
+    <script src="https://embeddable-compo-test.vercel.app/my-widget.umd.cjs"></script>
+    
+    <!-- Method 2: Manual mount with custom configuration -->
+    <script>
+      // Wait for the widget to load, then configure it
+      window.addEventListener('load', () => {
+        if (window.ChatWidget) {
+          ChatWidget.mount({
+            position: 'bottom-right',
+            theme: 'light',
+            title: 'Need help?',
+            buttonText: 'Start Chat',
+            onChatStart: () => {
+              console.log('Chat started from other project!');
+              // Add your custom logic here
+            }
+          });
+        }
+      });
+    </script>
+  </body>
+</html> 
