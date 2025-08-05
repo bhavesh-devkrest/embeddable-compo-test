@@ -1,0 +1,12 @@
+{
+    "buildCommand": "npm run build:widget",
+    "outputDirectory": "dist",
+    "cleanUrls": true,
+    "rewrites": [
+      {
+        "source": "/(.*)",
+        "destination": "/my-widget.umd.js"
+      }
+    ]
+  }
+  
